@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Visual Arts</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #244462;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        body.fade-in {
+            opacity: 1;
+        }
+
+        /* Header styles */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 15px 0;
+            background-color: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+        }
+
+        .back-btn {
+            position: fixed;
+            top: 15px;
+            left: 20px;
+            z-index: 101;
+        }
+
+        .back-btn a {
+            color: white;
+            font-size: 24px;
+            text-decoration: none;
+        }
+
+        .site-title {
+            text-align: center;
+            font-family: 'Cinzel Decorative', cursive;
+            font-size: 28px;
+            background: linear-gradient(45deg, #fff, #d4af37);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* 图片展示区域样式 */
+        .container {
+            width: 1000px;
+            height: 550px;
+            margin: auto;
+            margin-top: 80px;
+            position: relative;
+            padding-bottom: 100px;
+        }
+
+        .container ul {
+            list-style: none;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+        }
+
+        .container ul .bigImg {
+            position: absolute;
+            top: -420px;
+            left: 0;
+            width: 1000px;
+            height: 420px;
+            border: 5px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.5s;
+        }
+
+        .container ul .bigImg video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .container ul li {
+            width: 200px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .container ul li video {
+            width: 100%;
+            height: 80px;
+            object-fit: cover;
+            border: 5px solid transparent;
+            border-radius: 5px;
+        }
+
+        .container ul .frame {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 200px;
+            height: 80px;
+            border: 5px solid salmon;
+            pointer-events: none;
+            transition: all 0.5s;
+        }
+
+        .container ul .frame::before {
+            content: "";
+            position: absolute;
+            top: -19px;
+            left: calc(50% - 15px);
+            width: 30px;
+            height: 15px;
+            background-color: salmon;
+            clip-path: polygon(0 100%, 50% 0, 100% 100%);
+        }
+
+        /* 悬停效果 */
+        .container ul li:nth-child(1):hover ~ .bigImg {
+            background-image: url(./im2/1.jpg);
+        }
+        .container ul li:nth-child(1):hover ~ .frame {
+            left: 0;
+        }
+        .container ul li:nth-child(2):hover ~ .bigImg {
+            background-image: url(./im2/2.jpg);
+        }
+        .container ul li:nth-child(2):hover ~ .frame {
+            left: 200px;
+        }
+        .container ul li:nth-child(3):hover ~ .bigImg {
+            background-image: url(./im2/3.jpg);
+        }
+        .container ul li:nth-child(3):hover ~ .frame {
+            left: 400px;
+        }
+        .container ul li:nth-child(4):hover ~ .bigImg {
+            background-image: url(./im2/4.jpg);
+        }
+        .container ul li:nth-child(4):hover ~ .frame {
+            left: 600px;
+        }
+        .container ul li:nth-child(5):hover ~ .bigImg {
+            background-image: url(./im2/5.jpg);
+        }
+        .container ul li:nth-child(5):hover ~ .frame {
+            left: 800px;
+        }
+
+        /* Footer styles */
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 15px 0;
+            background-color: transparent;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        .social-icon {
+            color: white;
+            font-size: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            transform: translateY(-5px);
+        }
+
+        .fa-qq:hover { color: #12B7F5; }
+        .fa-weixin:hover { color: #7BB32E; }
+        .fa-github:hover { color: #6e5494; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="back-btn">
+            <a href="2.html" title="返回上一页">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+        </div>
+        <h1 class="site-title">Digital Visual Arts</h1>
+    </header>
+
+    <div class="container">
+        <ul>
+            <li><video src="./vd/1.mp4" muted></video></li>
+            <li><video src="./vd/2.mp4" muted></video></li>
+            <li><video src="./vd/3.mp4" muted></video></li>
+            <li><video src="./vd/4.mp4" muted></video></li>
+            <li><video src="./vd/5.mp4" muted></video></li>
+            <li class="bigImg">
+                <video src="./vd/1.mp4" controls autoplay muted></video>
+            </li>
+            <li class="frame"></li>
+        </ul>
+    </div>
+
+    <footer>
+        <div class="social-icons">
+            <a href="#" class="social-icon" title="QQ">
+                <i class="fab fa-qq"></i>
+            </a>
+            <a href="#" class="social-icon" title="微信">
+                <i class="fab fa-weixin"></i>
+            </a>
+            <a href="#" class="social-icon" title="GitHub">
+                <i class="fab fa-github"></i>
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        // 视频切换处理
+        const thumbnails = document.querySelectorAll('.container ul li:not(.bigImg):not(.frame) video');
+        const mainVideo = document.querySelector('.bigImg video');
+        
+        thumbnails.forEach(video => {
+            video.addEventListener('mouseover', function() {
+                mainVideo.src = this.src;
+                mainVideo.play();
+            });
+            
+            // 缩略图视频hover效果
+            video.addEventListener('mouseenter', function() {
+                this.play();
+            });
+            
+            video.addEventListener('mouseleave', function() {
+                this.pause();
+                this.currentTime = 0;
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                document.body.classList.add('fade-in');
+            }, 100);
+        });
+
+        // 返回按钮的处理
+        document.querySelector('.back-btn a').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.body.classList.remove('fade-in');
+            setTimeout(() => {
+                window.location.href = this.getAttribute('href');
+            }, 500);
+        });
+    </script>
+</body>
+</html> 

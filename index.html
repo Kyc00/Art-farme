@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>世界艺术展览馆</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <video class="background-video" autoplay muted loop playsinline>
+        <source src="./img/星空A.mp4" type="video/mp4">
+    </video>
+
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#" onclick="showAbout(); return false;">关于</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">项目</a>
+                    <div class="dropdown-content">
+                        <a href="show.html" onclick="return fadeOutTransition(this.href);">欧美艺术画</a>
+                        <a href="4.html" onclick="return fadeOutTransition(this.href);">数字视觉</a>
+                    </div>
+                </li>
+                <li><a href="#artists">艺术家</a></li>
+                <li><a href="#" onclick="showContact(); return false;">合作</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>WORLDART</h1>
+        
+        <section class="google-art-project">
+            <a href="2.html" style="text-decoration: none; color: inherit;" onclick="return fadeOutTransition(this.href);">
+                <h2>Embarking on an artistic journey</h2>
+            </a>
+        </section>
+    </main>
+
+    <footer>
+        <p onclick="transitionToBilibili()" style="cursor: pointer;">有本事点我啊</p>
+        <div class="social-icons">
+            <div class="social-icon qq-container">
+                <div class="qq-tooltip">维护中 /&lt;.:.&gt;\</div>
+                <a href="#" onclick="showQQTooltip(event)" title="QQ">
+                    <i class="fab fa-qq"></i>
+                </a>
+            </div>
+            <div class="social-icon wechat-container">
+                <div class="wechat-tooltip">还真穷追不舍啊，真mo啊</div>
+                <a href="#" onclick="showWeChatTooltip(event)" title="微信">
+                    <i class="fab fa-weixin"></i>
+                </a>
+            </div>
+            <a href="#" class="social-icon" title="GitHub">
+                <i class="fab fa-github"></i>
+            </a>
+        </div>
+    </footer>
+
+    <div id="transition-overlay" class="transition-overlay">
+        <div class="transition-text">欢迎来到抽象艺术馆</div>
+    </div>
+
+    <div id="about-overlay" class="about-overlay">
+        <div class="about-content">
+            <h3>信息设计结课作业</h3>
+            <p>这个静态网页主要是展示一些个人比较欣赏的艺术作品，加了一些个人认为比较有特点的几种动画效果以及布局，算是和艺术比较搭边的简单网页设计，that's it。</p>
+            <button onclick="hideAbout()">关闭</button>
+        </div>
+    </div>
+
+    <div id="contact-overlay" class="about-overlay">
+        <div class="about-content">
+            <h3>合作？</h3>
+            <p>真敢想啊，"合作？"，咱们小打小闹可以，往上？害！</p>
+            <button onclick="hideContact()">关闭</button>
+        </div>
+    </div>
+
+    <style>
+    .transition-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(45deg, #FF6B6B, #4ECDC4, #45B7D1, #96CEB4, #FFEEAD);
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.5s ease;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    }
+
+    .transition-overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .transition-text {
+        font-size: 2.5rem;
+        color: white;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        font-family: "楷体", cursive;
+        animation: textFloat 2s ease-in-out infinite;
+    }
+
+    @keyframes gradientBG {
+        0% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    @keyframes textFloat {
+        0%, 100% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-10px);
+        }
+    }
+
+    .about-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(36, 68, 98, 0.95);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 10000;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .about-content {
+        background-color: transparent;
+        padding: 40px;
+        border-radius: 15px;
+        text-align: center;
+        color: white;
+        max-width: 600px;
+        transform: translateY(20px);
+        transition: transform 0.3s ease;
+    }
+
+    .about-content h3 {
+        font-size: 2em;
+        margin-bottom: 20px;
+        font-family: "楷体", cursive;
+        color: #d4af37;
+    }
+
+    .about-content p {
+        font-size: 1.2em;
+        line-height: 1.6;
+        margin-bottom: 30px;
+        font-family: "楷体", cursive;
+    }
+
+    .about-content button {
+        background: transparent;
+        border: 2px solid white;
+        color: white;
+        padding: 10px 30px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-size: 1.1em;
+        transition: all 0.3s ease;
+        font-family: "楷体", cursive;
+    }
+
+    .about-content button:hover {
+        background: white;
+        color: #244462;
+    }
+
+    .about-overlay.active {
+        display: flex;
+        opacity: 1;
+    }
+
+    .about-overlay.active .about-content {
+        transform: translateY(0);
+    }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: rgba(36, 68, 98, 0.9);
+        min-width: 160px;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        z-index: 1;
+        border-radius: 8px;
+        overflow: hidden;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+        animation: fadeIn 0.3s ease;
+    }
+
+    .dropdown-content a {
+        color: white;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        text-align: center;
+        transition: background-color 0.3s;
+    }
+
+    .dropdown-content a:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* QQ和微信提示框样式 */
+    .qq-container, .wechat-container {
+        position: relative;
+    }
+
+    .qq-tooltip, .wechat-tooltip {
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(5px);
+        padding: 8px 12px;
+        border-radius: 6px;
+        font-size: 14px;
+        color: white;
+        white-space: nowrap;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        margin-bottom: 10px;
+        font-family: "楷体", cursive;
+    }
+
+    .qq-tooltip::after, .wechat-tooltip::after {
+        content: '';
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        border-width: 5px;
+        border-style: solid;
+        border-color: rgba(255, 255, 255, 0.1) transparent transparent transparent;
+    }
+
+    .qq-tooltip.show, .wechat-tooltip.show {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-50%) translateY(-5px);
+    }
+    </style>
+
+    <script>
+    function fadeOutTransition(href) {
+        document.body.classList.add('fade-out');
+        setTimeout(() => {
+            window.location.href = href;
+        }, 500);
+        return false;
+    }
+
+    // 页面加载完成后移除过渡类
+    window.addEventListener('pageshow', function(event) {
+        if (event.persisted) {
+            document.body.classList.remove('fade-out');
+        }
+    });
+
+    function transitionToBilibili() {
+        const overlay = document.getElementById('transition-overlay');
+        overlay.classList.add('active');
+        
+        setTimeout(() => {
+            window.location.href = 'https://www.bilibili.com/';
+        }, 2000); // 2秒后跳转
+    }
+
+    function showAbout() {
+        const overlay = document.getElementById('about-overlay');
+        overlay.classList.add('active');
+    }
+
+    function hideAbout() {
+        const overlay = document.getElementById('about-overlay');
+        overlay.classList.remove('active');
+    }
+
+    function showContact() {
+        const overlay = document.getElementById('contact-overlay');
+        overlay.classList.add('active');
+    }
+
+    function hideContact() {
+        const overlay = document.getElementById('contact-overlay');
+        overlay.classList.remove('active');
+    }
+
+    // QQ和微信提示框显示函数
+    function showQQTooltip(event) {
+        event.preventDefault();
+        const tooltip = document.querySelector('.qq-tooltip');
+        tooltip.classList.add('show');
+        setTimeout(() => {
+            tooltip.classList.remove('show');
+        }, 2000);
+    }
+
+    function showWeChatTooltip(event) {
+        event.preventDefault();
+        const tooltip = document.querySelector('.wechat-tooltip');
+        tooltip.classList.add('show');
+        setTimeout(() => {
+            tooltip.classList.remove('show');
+        }, 2000);
+    }
+    </script>
+</body>
+</html> 

@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>艺术画展示</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #244462;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        body.fade-in {
+            opacity: 1;
+        }
+
+        .shell {
+            width: 90%;
+            height: 400px;
+            display: flex;
+        }
+
+        .box {
+            flex: 1;
+            overflow: hidden;
+            transition: .5s;
+            margin: 0 12px;
+            box-shadow: 8px 8px 16px rgba(0, 0, 0, .5);
+            border-radius: 15px;
+            border: 6px solid #fff;
+            background-color: #fff;
+            position: relative;
+        }
+
+        .box > img {
+            width: 200%;
+            height: 85%;
+            object-fit: cover;
+            transition: .5s;
+        }
+
+        .box > span {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 18px;
+            text-align: center;
+            height: 15%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+        }
+
+        .box:hover {
+            flex-basis: 40%;
+        }
+
+        .box:hover > img {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* 添加返回按钮样式 */
+        .back-btn {
+            position: fixed;
+            top: 15px;
+            left: 20px;
+            z-index: 100;
+        }
+
+        .back-btn a {
+            color: white;
+            font-size: 24px;
+        }
+
+        /* 添加header样式 */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 15px 0;
+            background-color: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .site-title {
+            font-family: 'Cinzel Decorative', cursive;
+            font-size: 28px;
+            color: white;
+            text-align: center;
+            letter-spacing: 3px;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.2);
+            background: linear-gradient(45deg, #fff, #d4af37);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* 添加footer样式 */
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 15px 0;
+            background-color: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(8px);
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        .social-icon {
+            color: white;
+            font-size: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            transform: translateY(-5px);
+        }
+
+        .fa-qq:hover {
+            color: #12B7F5;
+        }
+
+        .fa-weixin:hover {
+            color: #7BB32E;
+        }
+
+        .fa-github:hover {
+            color: #6e5494;
+        }
+
+        /* 添加图片简介样式 */
+        .image-description {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.4);
+            color: white;
+            padding: 8px;
+            opacity: 0;
+            transform: translateY(100%);
+            transition: all 0.3s ease;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 14px;
+            text-align: center;
+            pointer-events: none;
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
+        }
+
+        .box:hover .image-description {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 添加翻页按钮样式 */
+        .page-navigation {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            z-index: 10;
+        }
+
+        .nav-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        .nav-btn i {
+            transition: transform 0.3s ease;
+        }
+
+        .prev-btn:hover i {
+            transform: translateX(-3px);
+        }
+
+        .next-btn:hover i {
+            transform: translateX(3px);
+        }
+
+        /* 添加页码样式 */
+        .page-number {
+            font-size: 20px;
+            color: white;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-family: 'Cinzel Decorative', cursive;
+        }
+
+        /* 为竖向图片添加特殊样式 */
+        .box.vertical > img {
+            width: 100%;
+            height: 85%;
+            object-fit: cover;
+        }
+
+        .box.vertical:hover > img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="back-btn">
+            <a href="2.html" title="返回上一页">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+        </div>
+        <h1 class="site-title">Western Artworks</h1>
+    </header>
+
+    <div class="shell">
+        <div class="box vertical">
+            <img src="./im1/2.png">
+            <span>城市印象</span>
+            <div class="image-description">
+                钢筋水泥中流淌着都市人的诗意与梦想
+            </div>
+        </div>
+        <div class="box">
+            <img src="./im1/3.jpg">
+            <span>自然之声</span>
+            <div class="image-description">
+                聆听大地的呼吸，感受生命的律动
+            </div>
+        </div>
+        <div class="box">
+            <img src="./im1/4.jpg">
+            <span>光影交织</span>
+            <div class="image-description">
+                光与影的交错中，演绎着时光的故事
+            </div>
+        </div>
+        <div class="box vertical">
+            <img src="./im1/5.jpg">
+            <span>时光之河</span>
+            <div class="image-description">
+                岁月如河，承载着无尽的回忆与憧憬
+            </div>
+        </div>
+        <div class="box">
+            <img src="./im1/6.jpg">
+            <span>梦境花园</span>
+            <div class="image-description">
+                在���的花园里，绽放着无限的可能
+            </div>
+        </div>
+        <div class="box">
+            <img src="./im1/7.jpg">
+            <span>海洋之心</span>
+            <div class="image-description">
+                深邃的海洋，孕育着生命的奇迹
+            </div>
+        </div>
+        <div class="box vertical">
+            <img src="./im1/8.jpg">
+            <span>山川之歌</span>
+            <div class="image-description">
+                巍峨的山脉，唱响着大地的赞歌
+            </div>
+        </div>
+        <div class="box">
+            <img src="./im1/9.png">
+            <span>春之语</span>
+            <div class="image-description">
+                春天的细语，诉说着生命的轮回
+            </div>
+        </div>
+        <div class="box">
+            <img src="./im1/10.png">
+            <span>秋之韵</span>
+            <div class="image-description">
+                秋天的韵律，演绎着岁月的沉淀
+            </div>
+        </div>
+    </div>
+
+    <!-- 在footer之前添加翻页按钮 -->
+    <div class="page-navigation">
+        <a href="#" class="nav-btn prev-btn" title="上一页">
+            <i class="fas fa-chevron-left"></i>
+        </a>
+        <div class="page-number">1</div>
+        <a href="#" class="nav-btn next-btn" title="下一页">
+            <i class="fas fa-chevron-right"></i>
+        </a>
+    </div>
+
+    <footer>
+        <div class="social-icons">
+            <a href="#" class="social-icon" title="QQ">
+                <i class="fab fa-qq"></i>
+            </a>
+            <a href="#" class="social-icon" title="微信">
+                <i class="fab fa-weixin"></i>
+            </a>
+            <a href="#" class="social-icon" title="GitHub">
+                <i class="fab fa-github"></i>
+            </a>
+        </div>
+    </footer>
+
+    <script>
+    // 图片数据
+    const artworks = [
+        {
+            id: 1,
+            src: './im1/1.png',
+            title: '梵高《麦田》',
+            description: '画面中每一笔触中的动力使所有物体在色彩之外更表现出机灵的动作'
+        },
+        {
+            id: 2,
+            src: './im1/2.png',
+            title: '达芬奇《蒙娜丽莎》',
+            description: '画家力图使人物的丰富内心感情和美丽的外形达到巧妙的结合'
+        },
+        {
+            id: 3,
+            src: './im1/3.jpg',
+            title: '达芬奇《最后的晚餐》',
+            description: '画面中的人物，以惊恐、愤怒、怀疑、剖白等神态，以及手势、眼神和行为，都刻画得精细入微，惟妙惟肖。'
+        },
+        {
+            id: 4,
+            src: './im1/4.jpg',
+            title: '戈雅《1808年5月3日枪杀马德里抵抗者》',
+            description: '抗议民族压迫、控诉侵略战争残暴的最有力的作品之一'
+        },
+        {
+            id: 5,
+            src: './im1/5.jpg',
+            title: '毕加索《老吉他手》',
+            description: '年老而贫穷的吉他手，他那清瘦般的手指放在一把西班牙吉他弦上，虽然面容枯槁、身体无力，他却流露出如痴如醉的表情，这使他看起来甚至有了一种高贵的气质……'
+        },
+        {
+            id: 6,
+            src: './im1/6.jpg',
+            title: '毕沙罗《蒙马特大街冬天的早晨》',
+            description: '画中车马人流很小，粗笔带来，却仿佛在画中移动、生动形象'
+        },
+        {
+            id: 7,
+            src: './im1/7.jpg',
+            title: '莫奈《日出·印象》',
+            description: '《日出·印象》描绘的是在晨雾笼罩中日出时港口景象'
+        },
+        {
+            id: 8,
+            src: './im1/8.jpg',
+            title: '梵高《自画像》',
+            description: '从这幅油画中，我们看到了画家的忧郁，但却充满了倔强'
+        },
+        {
+            id: 9,
+            src: './im1/9.png',
+            title: '梵高《十五朵向日葵》',
+            description: '画作中向日葵简单的插在花瓶中，呈现出令人心弦震荡的灿烂辉煌。'
+        },
+        {
+            id: 10,
+            src: './im1/10.png',
+            title: '门采尔《腓特烈听桑索西长笛音乐会》',
+            description: '幻妙的音乐，精致的灯盏，婉转的长笛，闪烁的烛光，每一种物象的和谐构置复原了一幅展现上层社会风貌的画面。'
+        }
+    ];
+
+    let currentPage = 1;
+    const itemsPerPage = 5;
+
+    function updateGallery(page) {
+        const start = (page - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
+        const currentArtworks = artworks.slice(start, end);
+        
+        const shell = document.querySelector('.shell');
+        shell.innerHTML = '';  // 清空当前内容
+
+        currentArtworks.forEach(artwork => {
+            const isVertical = artwork.id === 2 || artwork.id === 5 || artwork.id === 8;
+            shell.innerHTML += `
+                <div class="box${isVertical ? ' vertical' : ''}">
+                    <img src="${artwork.src}">
+                    <span>${artwork.title}</span>
+                    <div class="image-description">
+                        ${artwork.description}
+                    </div>
+                </div>
+            `;
+        });
+
+        // 更新页码显示
+        document.querySelector('.page-number').textContent = page;
+
+        // 更新按钮状态
+        document.querySelector('.prev-btn').style.opacity = page === 1 ? '0.5' : '1';
+        document.querySelector('.prev-btn').style.pointerEvents = page === 1 ? 'none' : 'auto';
+        
+        const maxPage = Math.ceil(artworks.length / itemsPerPage);
+        document.querySelector('.next-btn').style.opacity = page === maxPage ? '0.5' : '1';
+        document.querySelector('.next-btn').style.pointerEvents = page === maxPage ? 'none' : 'auto';
+    }
+
+    // 添加事件监听
+    document.querySelector('.prev-btn').addEventListener('click', (e) => {
+        e.preventDefault();
+        if (currentPage > 1) {
+            currentPage--;
+            updateGallery(currentPage);
+        }
+    });
+
+    document.querySelector('.next-btn').addEventListener('click', (e) => {
+        e.preventDefault();
+        const maxPage = Math.ceil(artworks.length / itemsPerPage);
+        if (currentPage < maxPage) {
+            currentPage++;
+            updateGallery(currentPage);
+        }
+    });
+
+    // 初始化显示
+    updateGallery(currentPage);
+
+    // 在script标签末尾添加
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(() => {
+            document.body.classList.add('fade-in');
+        }, 100);
+    });
+
+    // 返回按钮的处理
+    document.querySelector('.back-btn a').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.body.classList.remove('fade-in');
+        setTimeout(() => {
+            window.location.href = this.getAttribute('href');
+        }, 500);
+    });
+    </script>
+</body>
+</html> 
